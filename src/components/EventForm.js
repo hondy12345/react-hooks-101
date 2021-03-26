@@ -20,10 +20,11 @@ const EventForm = () => {
     e.preventDefault();
     // dispatch
     dispatch({ type: CREATE_EVENT, title, body });
+    console.log(timeCurrentISO8601());
     dispatch({
       type: ADD_OPERATION_LOG,
       description: "イベントを作成しました.",
-      operationAt: timeCurrentISO8601(),
+      operatedAt: timeCurrentISO8601(),
     });
     setTitle("");
     setBody("");
@@ -31,13 +32,14 @@ const EventForm = () => {
 
   const deleteAllEvents = (e) => {
     e.preventDefault();
-    window.confirm("全てのイベントを本当に削除しても良いですか？") &&
-      dispatch({ type: DELETE_ALL_EVENTS }) &&
+    if (window.confirm("全てのイベントを本当に削除しても良いですか？")) {
+      dispatch({ type: DELETE_ALL_EVENTS });
       dispatch({
         type: ADD_OPERATION_LOG,
         description: "全てのイベントを削除しました",
-        operationAt: timeCurrentISO8601(),
+        operatedAt: timeCurrentISO8601(),
       });
+    }
   };
 
   const deleteAllOperationLogs = (e) => {

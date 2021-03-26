@@ -8,13 +8,14 @@ const Event = ({ event }) => {
   const { dispatch } = useContext(AppContext);
   const id = event.id;
   const handleClickDeleteButton = () => {
-    window.confirm(`イベント(id=${id})を本当に削除しても良いですか？`) &&
-      dispatch({ type: DELETE_EVENT, id }) &&
+    if (window.confirm(`イベント(id=${id})を本当に削除しても良いですか？`)) {
+      dispatch({ type: DELETE_EVENT, id });
       dispatch({
         type: ADD_OPERATION_LOG,
         description: `イベント(id=${id})を削除しました`,
-        operationAt: timeCurrentISO8601(),
+        operatedAt: timeCurrentISO8601(),
       });
+    }
   };
   return (
     <tr>
